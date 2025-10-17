@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => 'Laravel Blogs API',
             ],
 
             'routes' => [
@@ -20,6 +20,7 @@ return [
                  */
                 'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', true),
 
+                'docs' => storage_path('api-docs'),
                 /*
                 * Edit to set path where swagger ui assets should be stored
                 */
@@ -44,7 +45,7 @@ return [
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
                 'annotations' => [
-                    base_path('app'),
+                   app_path(),
                 ],
             ],
         ],
