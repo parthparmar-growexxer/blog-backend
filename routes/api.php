@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-
+use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,6 +27,27 @@ Route::prefix('v1')->group(function () {
     
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
+        
         Route::get('/user', [AuthController::class, 'getCurrentUserDetails']);
+
+        /**
+         * User Blog Post Routes
+         */
+        Route::group(['prefix' => 'user'], function () {
+            Route::post('/posts', [PostController::class, 'store']); // create a post
+            Route::put('/posts/{post}', [PostController::class, 'update']); // update a post
+            Route::get('/posts', [PostController::class, 'index']); // list all posts per user
+            Route::get('/posts/{post}', [PostController::class, 'show']);
+            Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+        });
+
     });
+
+    /**
+     * Blog Categories Routes
+     */
+    Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+        Route::apiResource('categories', CategoryController::class);
+    });
+
 });

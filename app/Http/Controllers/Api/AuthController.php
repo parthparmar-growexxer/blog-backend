@@ -53,6 +53,7 @@ class AuthController extends Controller
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="Parth Parmar"),
      *                 @OA\Property(property="email", type="string", format="email", example="parth@example.com"),
+    *                  @OA\Property(property="role", type="string", example="author"),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"),
      *                @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"))
      *              ),
@@ -134,6 +135,7 @@ class AuthController extends Controller
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="Parth Parmar"),
      *                 @OA\Property(property="email", type="string", format="email", example="parth@example.com"),
+    *                  @OA\Property(property="role", type="string", example="admin"),
      *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"),
      *                @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"))
      *              ),
