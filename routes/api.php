@@ -37,6 +37,7 @@ Route::prefix('v1')->group(function () {
      * Public Category Routes
     */
     Route::get('/categories', [CategoryController::class, 'index']); // list all categories
+    Route::get('/categories/{category}', [CategoryController::class, 'show']); // get single category details
     Route::get('/categories/{category}/posts', [PostController::class, 'postsByCategory']); // get posts by category
     
     /**

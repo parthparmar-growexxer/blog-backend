@@ -105,6 +105,12 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
+        $isCategoryExist = Category::where('name', $request->name)->first();
+        
+        if ($isCategoryExist) {
+            return apiResponse(null, 'Category already exists', 400);
+        }
+
         $category = Category::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
@@ -210,6 +216,13 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'sometimes|string|max:255',
         ]);
+
+        $isCategoryExist = Category::where('name', $request->name)
+            ->where('id', '!=', $category->id)
+            ->first();
+        if ($isCategoryExist) {
+            return apiResponse(null, 'Category already exists', 400);
+        }
 
         if ($request->has('name')) {
             $category->name = $request->name;
