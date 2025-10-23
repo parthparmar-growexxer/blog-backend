@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CommentController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -40,6 +42,13 @@ Route::prefix('v1')->group(function () {
             Route::get('/posts/{post}', [PostController::class, 'show']);
             Route::delete('/posts/{post}', [PostController::class, 'destroy']);
         });
+
+        /**
+         * Comments Routes
+         */
+        Route::get('/posts/{post}/comments', [CommentController::class, 'index']); // list all comments per post
+        Route::post('/posts/{post}/comments', [CommentController::class, 'store']); // create comment
+        Route::delete('/comments/{comment}', [CommentController::class, 'destroy']); // delete comment
 
     });
 
