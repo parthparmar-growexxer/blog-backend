@@ -27,6 +27,23 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     
+    /**
+     * Public Blog Post Routes
+     */
+    Route::get('/posts', [PostController::class, 'allPosts']); // list all posts
+    Route::get('/posts/{post}', [PostController::class, 'show']); // get single post details
+    
+    /**
+     * Public Category Routes
+    */
+    Route::get('/categories', [CategoryController::class, 'index']); // list all categories
+    Route::get('/categories/{category}/posts', [PostController::class, 'postsByCategory']); // get posts by category
+    
+    /**
+    * Public Comments Routes
+    */
+    Route::get('/posts/{post}/comments', [CommentController::class, 'index']); // list all comments per post
+    
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         
@@ -39,14 +56,14 @@ Route::prefix('v1')->group(function () {
             Route::post('/posts', [PostController::class, 'store']); // create a post
             Route::put('/posts/{post}', [PostController::class, 'update']); // update a post
             Route::get('/posts', [PostController::class, 'index']); // list all posts per user
-            Route::get('/posts/{post}', [PostController::class, 'show']);
             Route::delete('/posts/{post}', [PostController::class, 'destroy']);
+            Route::patch('/posts/{post}/toggle-publish', [PostController::class, 'togglePublish']); // toggle publish status
         });
-
+        
+        
         /**
          * Comments Routes
          */
-        Route::get('/posts/{post}/comments', [CommentController::class, 'index']); // list all comments per post
         Route::post('/posts/{post}/comments', [CommentController::class, 'store']); // create comment
         Route::delete('/comments/{comment}', [CommentController::class, 'destroy']); // delete comment
 
@@ -56,7 +73,9 @@ Route::prefix('v1')->group(function () {
      * Blog Categories Routes
      */
     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-        Route::apiResource('categories', CategoryController::class);
+        Route::post('/categories', [CategoryController::class, 'store']); // create category
+        Route::put('/categories/{category}', [CategoryController::class, 'update']); // update category
+        Route::delete('/categories/{category}', [CategoryController::class, 'destroy']); // delete category
     });
 
 });

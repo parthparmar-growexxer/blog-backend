@@ -14,7 +14,8 @@ class Post extends Model
         'slug',
         'content',
         'category_id',
-        'is_published'
+        'is_published',
+        'banner',
     ];
 
     public function user()
@@ -25,5 +26,10 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

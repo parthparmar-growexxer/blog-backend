@@ -56,7 +56,23 @@ class CommentController extends Controller
     public function index($postId)
     {
         try {
-            $comments = Comment::where('post_id', $postId)->get();
+            $comments = Comment::with('user') // eager load user
+            ->where('post_id', $postId)
+            ->get()
+            ->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'post_id' => $comment->post_id,
+                    'user_id' => $comment->user_id,
+                    'body' => $comment->body,
+                    'created_at' => $comment->created_at,
+                    'updated_at' => $comment->updated_at,
+                    'user' => [
+                        'name' => $comment->user->name,
+                        'email' => $comment->user->email,
+                    ],
+                ];
+            });
             return apiResponse($comments, 'Comments fetched successfully');
         } catch (\Exception $e) {
             return apiResponse(null, 'Failed to fetch comments', 500);
@@ -122,7 +138,8 @@ class CommentController extends Controller
             $comment = Comment::create([
                 'user_id' => $request->user()->id,
                 'post_id' => $postId,
-                'content' => $request->content
+                'body' => $request->content,
+                'is_approved' => true,
             ]);
             return apiResponse($comment, 'Comment created successfully', 201);
         } catch (\Exception $e) {
