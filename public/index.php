@@ -17,7 +17,7 @@ define('LARAVEL_START', microtime(true));
 */
 
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
-    require $maintenance;
+    require_once $maintenance;
 }
 
 /*
@@ -26,12 +26,12 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 |--------------------------------------------------------------------------
 |
 | Composer provides a convenient, automatically generated class loader for
-| this application. We just need to utilize it! We'll simply require it
+| this application. We just need to utilize it! We'll simply require_once it
 | into the script here so we don't need to manually load our classes.
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
