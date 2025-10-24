@@ -6,8 +6,7 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoryPolicy
-{
+class CategoryPolicy {
     use HandlesAuthorization;
 
 
@@ -17,8 +16,7 @@ class CategoryPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
-    {
+    public function create(User $user) {
        return $user->role === 'admin';
     }
 
@@ -29,8 +27,7 @@ class CategoryPolicy
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Category $category)
-    {
+    public function update(User $user, Category $category) {
         return $user->role === 'admin';
     }
 
@@ -41,8 +38,7 @@ class CategoryPolicy
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Category $category)
-    {
+    public function delete(User $user, Category $category) {
         return $user->role === 'admin';
     }
 
@@ -53,8 +49,7 @@ class CategoryPolicy
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Category $category)
-    {
+    public function restore(User $user, Category $category) {
         return $user->role === 'admin';
     }
 
@@ -65,8 +60,7 @@ class CategoryPolicy
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Category $category)
-    {
+    public function forceDelete(User $user, Category $category) {
         return $user->role === 'admin';
     }
 }

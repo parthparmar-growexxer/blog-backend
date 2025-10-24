@@ -14,8 +14,7 @@ use Illuminate\Support\Str;
  * )
  */
 
-class PostController extends Controller
-{
+class PostController extends Controller {
     /**
      * @OA\Get(
      *     path="/api/v1/user/posts",
@@ -38,7 +37,8 @@ class PostController extends Controller
      *                     @OA\Property(property="title", type="string", example="My first post"),
      *                     @OA\Property(property="content", type="string", example="Post content"),
      *                     @OA\Property(property="slug", type="string", example="my-first-post"),
-     *                     @OA\Property(property="banner", type="string", nullable=true, example="banners/example.jpg"),
+     *                     @OA\Property(property="banner", type="string", nullable=true,
+     *                              example="banners/example.jpg"),
      *                     @OA\Property(property="is_published", type="boolean", example=true),
      *                     @OA\Property(property="category_id", type="integer", example=1),
      *                     @OA\Property(property="user_id", type="integer", example=1),
@@ -58,8 +58,7 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function index()
-    {
+    public function index() {
         try {
             $user = request()->user();
             $posts = Post::with(['user', 'category'])->where('user_id', $user->id)->get();
@@ -86,7 +85,8 @@ class PostController extends Controller
      *                 @OA\Property(property="content", type="string", example="Post content here..."),
      *                 @OA\Property(property="category_id", type="integer", example=1),
      *                 @OA\Property(property="is_published", type="boolean", example=true),
-     *                 @OA\Property(property="banner", type="string", format="binary", description="Banner image (jpg, jpeg, png - max 2MB)")
+     *                 @OA\Property(property="banner", type="string", format="binary",
+     *                      description="Banner image (jpg, jpeg, png - max 2MB)")
      *             )
      *         )
      *     ),
@@ -122,8 +122,7 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -200,8 +199,7 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function show(Post $post)
-    {
+    public function show(Post $post) {
         try {
             $post->load(['user', 'category']);
             return apiResponse($post, 'Post fetched successfully');
@@ -228,12 +226,14 @@ class PostController extends Controller
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
-     *                 @OA\Property(property="_method", type="string", example="PUT", description="Method spoofing for multipart requests"),
+     *                 @OA\Property(property="_method", type="string", example="PUT",
+     *                      description="Method spoofing for multipart requests"),
      *                 @OA\Property(property="title", type="string", example="Updated Post Title"),
      *                 @OA\Property(property="content", type="string", example="Updated content"),
      *                 @OA\Property(property="category_id", type="integer", example=2),
      *                 @OA\Property(property="is_published", type="boolean", example=true),
-     *                 @OA\Property(property="banner", type="string", format="binary", description="Banner image (jpg, jpeg, png - max 2MB)")
+     *                 @OA\Property(property="banner", type="string", format="binary",
+     *                      description="Banner image (jpg, jpeg, png - max 2MB)")
      *             )
      *         )
      *     ),
@@ -250,7 +250,8 @@ class PostController extends Controller
      *                 @OA\Property(property="title", type="string", example="Updated Post Title"),
      *                 @OA\Property(property="content", type="string", example="Updated content"),
      *                 @OA\Property(property="slug", type="string", example="updated-post-title-1234567890"),
-     *                 @OA\Property(property="banner", type="string", nullable=true, example="banners/updated-example.jpg"),
+     *                 @OA\Property(property="banner", type="string", nullable=true,
+     *                          example="banners/updated-example.jpg"),
      *                 @OA\Property(property="is_published", type="boolean", example=true),
      *                 @OA\Property(property="category_id", type="integer", example=2),
      *                 @OA\Property(property="user_id", type="integer", example=1),
@@ -269,8 +270,7 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, Post $post)
-    {
+    public function update(Request $request, Post $post) {
         $this->authorize('update', $post);
 
         $request->validate([
@@ -345,8 +345,7 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function togglePublish(Request $request, Post $post)
-    {
+    public function togglePublish(Request $request, Post $post) {
         $this->authorize('update', $post);
 
         try {
@@ -391,8 +390,7 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function destroy(Post $post)
-    {
+    public function destroy(Post $post) {
         $this->authorize('delete', $post);
 
         try {
@@ -429,18 +427,23 @@ class PostController extends Controller
      *                     @OA\Property(property="content", type="string", example="My First Blog Updated Content."),
      *                     @OA\Property(property="banner", type="string", nullable=true, example="banners/example.jpg"),
      *                     @OA\Property(property="is_published", type="boolean", example=true),
-     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2025-10-17T13:33:52.000000Z"),
-     *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2025-10-17T13:42:05.000000Z"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time",
+     *                              example="2025-10-17T13:33:52.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time",
+     *                              example="2025-10-17T13:42:05.000000Z"),
      *                     @OA\Property(
      *                         property="user",
      *                         type="object",
      *                         @OA\Property(property="id", type="integer", example=1),
      *                         @OA\Property(property="name", type="string", example="Parth Parmar"),
      *                         @OA\Property(property="email", type="string", example="parth.parmar@growexx.com"),
-     *                         @OA\Property(property="email_verified_at", type="string", format="date-time", nullable=true, example=null),
+     *                         @OA\Property(property="email_verified_at", type="string", format="date-time",
+     *                                  nullable=true, example=null),
      *                         @OA\Property(property="role", type="string", example="author"),
-     *                         @OA\Property(property="created_at", type="string", format="date-time", example="2025-10-17T10:50:41.000000Z"),
-     *                         @OA\Property(property="updated_at", type="string", format="date-time", example="2025-10-17T10:50:41.000000Z")
+     *                         @OA\Property(property="created_at", type="string", format="date-time",
+     *                              example="2025-10-17T10:50:41.000000Z"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time",
+     *                              example="2025-10-17T10:50:41.000000Z")
      *                     ),
      *                     @OA\Property(
      *                         property="category",
@@ -448,8 +451,10 @@ class PostController extends Controller
      *                         @OA\Property(property="id", type="integer", example=2),
      *                         @OA\Property(property="name", type="string", example="Technical Blogs"),
      *                         @OA\Property(property="slug", type="string", example="technical-blogs"),
-     *                         @OA\Property(property="created_at", type="string", format="date-time", example="2025-10-17T13:23:14.000000Z"),
-     *                         @OA\Property(property="updated_at", type="string", format="date-time", example="2025-10-17T13:23:14.000000Z")
+     *                         @OA\Property(property="created_at", type="string", format="date-time",
+     *                              example="2025-10-17T13:23:14.000000Z"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time",
+     *                              example="2025-10-17T13:23:14.000000Z")
      *                     )
      *                 )
      *             )
@@ -465,8 +470,7 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function allPosts()
-    {
+    public function allPosts() {
         try {
             $posts = Post::with(['user', 'category'])->where('is_published',true)->get();
             return apiResponse($posts, 'All posts fetched successfully');
@@ -494,7 +498,8 @@ class PostController extends Controller
      *         description="Posts fetched successfully for the category",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="message", type="string", example="Posts fetched successfully for the category"),
+     *             @OA\Property(property="message", type="string",
+     *                      example="Posts fetched successfully for the category"),
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
@@ -508,8 +513,10 @@ class PostController extends Controller
      *                     @OA\Property(property="content", type="string", example="Article content here."),
      *                     @OA\Property(property="banner", type="string", nullable=true, example="banners/example.jpg"),
      *                     @OA\Property(property="is_published", type="boolean", example=true),
-     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2025-10-17T13:33:52.000000Z"),
-     *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2025-10-17T13:42:05.000000Z"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time",
+     *                              example="2025-10-17T13:33:52.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time",
+     *                              example="2025-10-17T13:42:05.000000Z"),
      *                     @OA\Property(
      *                         property="user",
      *                         type="object",
@@ -538,8 +545,7 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function postsByCategory($categoryId)
-    {
+    public function postsByCategory($categoryId) {
         try {
             $posts = Post::with(['user', 'category'])->where('category_id', $categoryId)->get();
             return apiResponse($posts, 'Posts fetched successfully for the category');

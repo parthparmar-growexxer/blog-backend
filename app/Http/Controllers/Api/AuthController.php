@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+
 /**
  * @OA\Info(
  *      version="1.0.0",
@@ -14,12 +15,11 @@ use Illuminate\Validation\ValidationException;
  *      description="API Documentation for Blog"
  * )
  */
-class AuthController extends Controller
-{
+class AuthController extends Controller {
     /**
      * Handle user registration request.
      * - This function will be used to handle user registration.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -47,26 +47,29 @@ class AuthController extends Controller
      *            @OA\Property(property="success", type="boolean", example=true),
      *            @OA\Property(property="message", type="string", example="User registered successfully"),
      *            @OA\Property(property="data", type="object",
-     *              @OA\Property(property="access_token", type="string", example="1|qwertyuiopasdfghjklzxcvbnm1234567890"),
+     *              @OA\Property(property="access_token", type="string", 
+     *                  example="1|qwertyuiopasdfghjklzxcvbnm1234567890"),
      *              @OA\Property(property="token_type", type="string", example="Bearer"),
      *              @OA\Property(property="user", type="object", 
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="Parth Parmar"),
      *                 @OA\Property(property="email", type="string", format="email", example="parth@example.com"),
-    *                  @OA\Property(property="role", type="string", example="author"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"),
-     *                @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"))
+     *                  @OA\Property(property="role", type="string", example="author"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time",
+     *                      example="2024-01-01T00:00:00Z"),
+     *                @OA\Property(property="updated_at", type="string", format="date-time",
+     *                      example="2024-01-01T00:00:00Z"))
      *              ),
      *          )
      *     ),
      *     @OA\Response(
      *         response=400,
      *         description="Bad request",
-     *        @OA\JsonContent(  
+     *        @OA\JsonContent(
      *           @OA\Property(property="success", type="boolean", example=false),
      *           @OA\Property(property="message", type="string", example="Validation Error"),
      *           @OA\Property(property="errors", type="object",
-     *              @OA\Property(property="email", type="array", 
+     *              @OA\Property(property="email", type="array",
      *                  @OA\Items(type="string", example="The email has already been taken.")
      *                  )
      *              )
@@ -74,8 +77,7 @@ class AuthController extends Controller
      *      )
      * )
      */
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -102,7 +104,7 @@ class AuthController extends Controller
     /**
      * Handle user login request.
      * - This function will be used to handle user login.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -129,15 +131,18 @@ class AuthController extends Controller
      *            @OA\Property(property="success", type="boolean", example=true),
      *            @OA\Property(property="message", type="string", example="User registered successfully"),
      *            @OA\Property(property="data", type="object",
-     *              @OA\Property(property="access_token", type="string", example="1|qwertyuiopasdfghjklzxcvbnm1234567890"),
+     *              @OA\Property(property="access_token", type="string", 
+     *                  example="1|qwertyuiopasdfghjklzxcvbnm1234567890"),
      *              @OA\Property(property="token_type", type="string", example="Bearer"),
      *              @OA\Property(property="user", type="object", 
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="Parth Parmar"),
      *                 @OA\Property(property="email", type="string", format="email", example="parth@example.com"),
-    *                  @OA\Property(property="role", type="string", example="admin"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"),
-     *                @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"))
+     *                  @OA\Property(property="role", type="string", example="admin"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time",
+     *                      example="2024-01-01T00:00:00Z"),
+     *                @OA\Property(property="updated_at", type="string", format="date-time",
+     *                      example="2024-01-01T00:00:00Z"))
      *              ),
      *          )
      *     ),
@@ -151,8 +156,7 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
@@ -210,8 +214,7 @@ class AuthController extends Controller
     *     )
     * )
     */
-    public function logout(Request $request)
-    {
+    public function logout(Request $request) {
         $request->user()->currentAccessToken()->delete();
 
         return apiResponse(null, 'User logged out successfully', 200);
@@ -243,8 +246,10 @@ class AuthController extends Controller
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="Parth Parmar"),
      *                 @OA\Property(property="email", type="string", format="email", example="parth@example.com"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"),
-     *                @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-01T00:00:00Z")
+     *                 @OA\Property(property="created_at", type="string", format="date-time", 
+     *                      example="2024-01-01T00:00:00Z"),
+     *                @OA\Property(property="updated_at", type="string", format="date-time",
+     *                      example="2024-01-01T00:00:00Z")
      *            )
      *        )
      *    ),
@@ -258,8 +263,7 @@ class AuthController extends Controller
      *   )
      * )
      */
-    public function getCurrentUserDetails(Request $request)
-    {
+    public function getCurrentUserDetails(Request $request){
         return apiResponse($request->user(), 'User details fetched successfully', 200);
     }
 }

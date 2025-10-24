@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
-{
+class CommentController extends Controller {
     /**
      * @OA\Get(
      *     path="/api/v1/posts/{post}/comments",
@@ -37,8 +36,10 @@ class CommentController extends Controller
      *                     @OA\Property(property="post_id", type="integer", example=1),
      *                     @OA\Property(property="user_id", type="integer", example=1),
      *                     @OA\Property(property="content", type="string", example="This is a comment"),
-     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"),
-     *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-01T00:00:00Z")
+     *                     @OA\Property(property="created_at", type="string", format="date-time",
+     *                          example="2024-01-01T00:00:00Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time",
+     *                          example="2024-01-01T00:00:00Z")
      *                 )
      *             )
      *         )
@@ -53,8 +54,7 @@ class CommentController extends Controller
      *     )
      * )
      */
-    public function index($postId)
-    {
+    public function index($postId) {
         try {
             $comments = Comment::with('user') // eager load user
             ->where('post_id', $postId)
@@ -113,8 +113,10 @@ class CommentController extends Controller
      *                 @OA\Property(property="post_id", type="integer", example=1),
      *                 @OA\Property(property="user_id", type="integer", example=1),
      *                 @OA\Property(property="content", type="string", example="This is a comment"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-01-01T00:00:00Z"),
-     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-01-01T00:00:00Z")
+     *                 @OA\Property(property="created_at", type="string", format="date-time",
+     *                      example="2024-01-01T00:00:00Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time",
+     *                      example="2024-01-01T00:00:00Z")
      *             )
      *         )
      *     ),
@@ -128,8 +130,7 @@ class CommentController extends Controller
      *     )
      * )
      */
-    public function store(Request $request, $postId)
-    {
+    public function store(Request $request, $postId) {
         $request->validate([
             'content' => 'required|string'
         ]);
@@ -187,8 +188,7 @@ class CommentController extends Controller
      *     )
      * )
      */
-    public function destroy(Comment $comment)
-    {
+    public function destroy(Comment $comment) {
         $this->authorize('delete', $comment);
 
         try {
